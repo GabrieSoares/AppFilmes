@@ -18,13 +18,13 @@
   <ion-item>
     <ion-label>Duração</ion-label>
     <ion-range min="0" max="720" pin="true" [(ngModel)]="filme.duracao">
-      <ion-icon size="small" slot="start" name="time"></ion-icon>
-      <ion-icon slot="end" name="time"></ion-icon>
+      <ion-icon size="small" slot="start" name="time">0</ion-icon>
+      <ion-icon slot="end" name="time">720</ion-icon>
     </ion-range>
     <ion-badge *ngIf="filme.duracao >= 0" slot="end">{{filme.duracao + ' mim'}}</ion-badge>
   </ion-item>
 
-  <ion-button color="danger" horizontal="start"(click)="Cancelar()">Cancelar</ion-button>
+  <ion-button color="danger" horizontal="start"(click)="voltar()">Cancelar</ion-button>
   <ion-button color="success" horizontal="end" (click)="Gravar()">Gravar</ion-button>
 
 </ion-content>

@@ -5,48 +5,65 @@ import { Injectable } from '@angular/core';
 })
 export class FilmesService {
 
+  filmes: Array<Filme>;
+
   genero = [
-    {descricao: 'Ação'},
-    {descricao: 'Aventura'},
-    {descricao: 'Terror'},
-    {descricao: 'Suspense'},
-    {descricao: 'Comedia'}
+    { descricao: 'Ação' },
+    { descricao: 'Aventura' },
+    { descricao: 'Terror' },
+    { descricao: 'Suspense' },
+    { descricao: 'Comedia' }
   ];
 
-  constructor() { }
+  constructor() {
+    this.filmes = [];
+  }
 
-  public inseir(filme: Filme): boolean{
+  public inserir(filme: Filme): boolean {
     console.log('Estou inserindo');
-    console.log(filme);
+    this.filmes.push(filme);
     return true;
   }
-  public remover(filme: Filme): boolean{
+  public remover(filme: Filme): boolean {
     console.log('Estou removendo');
     console.log(filme);
     return true;
   }
-  public assistir(filme: Filme): boolean{
-    console.log('Estou Assistindo');
-    console.log(filme);
+  public assistir(filme: Filme): boolean {
+    this.filmes.map(
+      elemento => {
+        if (elemento === filme) {
+          elemento.assitir();
+        }
+      }
+    );
     return true;
   }
-  public listar(status: String): Array<Filme>{
-    console.log('Estou Listando');
-    console.log(status);
-    return[];
+  public listar(status: String): Array<Filme> {
+    return this.filmes.filter(
+      elemento => elemento.status === status
+    );
   }
-  public listarGenero(): Array<Genero>{
+  public listarGenero(): Array<Genero> {
     return this.genero;
   }
 }
 
-export class Filme{
-  nome:String;
-  genero:Genero;
-  duracao:number;
-  status:String;
+export class Filme {
+  nome: String;
+  genero: Genero;
+  duracao: number;
+  status: String;
+
+  constructor() {
+    this.status = 'Pendente';
+  }
+
+  public assitir() {
+    this.status = 'Assistido'
+  }
 }
 
-export class Genero{
+export class Genero {
   descricao: String;
 }
