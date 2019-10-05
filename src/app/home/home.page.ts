@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Filme, FilmesService } from '../filmes.service';
+import { Observable } from 'rxjs';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +10,13 @@ import { Filme, FilmesService } from '../filmes.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  filmes: Array<Filme>;
+  filmes: Observable<Filme[]>;
   status = "Pendente";
 
   constructor(
     public router: Router,
-    private filmeService: FilmesService
+    private filmeService: FilmesService,
+    private socialSharing: SocialSharing,
   ) {}
 
   ionViewWillEnter() {
@@ -29,5 +32,12 @@ export class HomePage {
   assistir(filme){
     this.filmeService.assistir(filme);
     this.listar();
+  }
+  remover(filme){
+    this.filmeService.remover(filme);
+    this.listar();
+  }
+  compartilhar(){
+    this.socialSharing.share('Assita o filme');
   }
 }

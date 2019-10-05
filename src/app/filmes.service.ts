@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FilmesService {
-
-  filmes: Array<Filme>;
+  private filmesCollection: AngularFirestoreCollection<Filme>;
+  filmes: Observable<Filme[]>;
 
   genero = [
     { descricao: 'Ação' },
@@ -15,34 +17,24 @@ export class FilmesService {
     { descricao: 'Comedia' }
   ];
 
-  constructor() {
-    this.filmes = [];
+  constructor(private afs: AngularFirestore) {
+    this.filmesCollection = afs.collection<Filme>('filme');
+    this.filmes = this.filmesCollection.valueChanges();
   }
 
-  public inserir(filme: Filme): boolean {
-    console.log('Estou inserindo');
-    this.filmes.push(filme);
-    return true;
+  public inserir(filme: Filme) {
+    const id = this.afs.createId();
+    return this.filmesCollection.doc(id).set({...filme,id});
   }
-  public remover(filme: Filme): boolean {
-    console.log('Estou removendo');
-    console.log(filme);
-    return true;
+
+  public remover(filme: Filme) {  
+    return this.filmesCollection.doc(filme.id).delete();
   }
-  public assistir(filme: Filme): boolean {
-    this.filmes.map(
-      elemento => {
-        if (elemento === filme) {
-          elemento.assitir();
-        }
-      }
-    );
-    return true;
+  public assistir(filme: Filme) {
+    return this.filmesCollection.doc(filme.id).update({status: 'Assistido'});
   }
-  public listar(status: String): Array<Filme> {
-    return this.filmes.filter(
-      elemento => elemento.status === status
-    );
+  public listar(status: String): Observable<Filme[]> {
+    return this.filmes;
   }
   public listarGenero(): Array<Genero> {
     return this.genero;
@@ -50,10 +42,11 @@ export class FilmesService {
 }
 
 export class Filme {
-  nome: String;
+  id: string;
+  nome: string;
   genero: Genero;
   duracao: number;
-  status: String;
+  status: string;
 
   constructor() {
     this.status = 'Pendente';

@@ -23,10 +23,11 @@ export class CadastroPage implements OnInit {
   }
 
   Gravar() {
-    if (this.filmesService.inserir(this.filme)) {
+    this.filmesService.inserir(this.filme).then(
+     () => {
       console.log("Gravado com Sucesso");
       this.router.navigate(['home']);
-    }
+     });
   }
 
 
