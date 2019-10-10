@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FilmesService {
-  private filmesCollection: AngularFirestoreCollection<Filme>;
+  private filmesCollection: AngularFirestoreCollection<Filme>
   filmes: Observable<Filme[]>;
 
   genero = [

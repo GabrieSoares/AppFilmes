@@ -10,8 +10,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
-import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,8 +25,8 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
   providers: [
     StatusBar,
-    SocialSharing,
     SplashScreen,
+    SocialSharing,
     AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
